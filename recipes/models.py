@@ -24,6 +24,7 @@ class Ingredient(models.Model):
 class Recipe(models.Model):
     recipe_name = models.CharField(max_length=50)
     instructions = models.CharField(max_length=65535)
+    pub_date = models.DateTimeField('date published')
 
     def __str__(self):
         return self.recipe_name
