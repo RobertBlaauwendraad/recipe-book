@@ -1,29 +1,10 @@
 from django.db import models
 
 
-class Unit(models.Model):
-    code = models.CharField(max_length=50)
-    description = models.CharField(max_length=255)
-
-    def __str__(self):
-        return self.code
-
-    pass
-
-
-class Ingredient(models.Model):
-    ingredient_name = models.CharField(max_length=50)
-    unit = models.ForeignKey(Unit, on_delete=models.CASCADE)
-
-    def __str__(self):
-        return self.ingredient_name
-
-    pass
-
-
 class Recipe(models.Model):
     recipe_name = models.CharField(max_length=50)
-    instructions = models.CharField(max_length=65535)
+    description = models.CharField(max_length=65535, blank=True, default='')
+    people = models.IntegerField()
     pub_date = models.DateTimeField('date published')
 
     def __str__(self):
@@ -34,11 +15,22 @@ class Recipe(models.Model):
 
 class RecipeIngredients(models.Model):
     recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
-    ingredient = models.ForeignKey(Ingredient, on_delete=models.CASCADE)
+    ingredient_name = models.CharField(max_length=65535)
     quantity = models.DecimalField(decimal_places=2, max_digits=6)
-    people = models.IntegerField()
+    unit = models.CharField(max_length=50)
 
     def __str__(self):
-        return self.recipe + " " + self.ingredient
+        return self.ingredient_name
+
+    pass
+
+
+class RecipeInstructions(models.Model):
+    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    step = models.IntegerField()
+    instruction = models.CharField(max_length=65535)
+
+    def __str__(self):
+        return str(self.step) + ": " + self.instruction
 
     pass
