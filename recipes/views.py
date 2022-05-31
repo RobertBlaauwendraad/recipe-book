@@ -6,7 +6,7 @@ from .models import Recipe
 
 
 def index(request):
-    latest_recipes_list = Recipe.objects.order_by('-pub_date')[:10]
+    latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
     context = {
         'latest_recipes_list': latest_recipes_list
     }
