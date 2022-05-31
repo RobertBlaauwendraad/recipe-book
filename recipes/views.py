@@ -15,7 +15,12 @@ def index(request):
 
 def detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    return render(request, 'recipes/detail.html', {'recipe': recipe})
+    ordered_instructions_list = recipe.instructions.order_by('step')
+    context = {
+        'recipe': recipe,
+        'ordered_instructions_list': ordered_instructions_list
+    }
+    return render(request, 'recipes/detail.html', context)
 
 
 def delete(request, recipe_id):

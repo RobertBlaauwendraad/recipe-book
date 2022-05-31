@@ -14,7 +14,7 @@ class Recipe(models.Model):
 
 
 class RecipeIngredients(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name="ingredients", on_delete=models.CASCADE)
     ingredient_name = models.CharField(max_length=65535)
     quantity = models.DecimalField(decimal_places=2, max_digits=6)
     unit = models.CharField(max_length=50)
@@ -26,7 +26,7 @@ class RecipeIngredients(models.Model):
 
 
 class RecipeInstructions(models.Model):
-    recipe = models.ForeignKey(Recipe, on_delete=models.CASCADE)
+    recipe = models.ForeignKey(Recipe, related_name="instructions", on_delete=models.CASCADE)
     step = models.IntegerField()
     instruction = models.CharField(max_length=65535)
 
