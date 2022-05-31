@@ -1,5 +1,5 @@
 from django.contrib.messages.context_processors import messages
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 
 from .models import Recipe
@@ -24,7 +24,6 @@ def detail(request, recipe_id):
 
 
 def delete(request, recipe_id):
-    recipe_obj = Recipe.objects.get(id=recipe_id)
-    recipe_obj.delete()
-    messages.success(request, 'Successfully deleted recipe.')
-    return HttpResponseRedirect(request, 'recipe/index.html')
+    recipe = Recipe.objects.get(pk=recipe_id)
+    recipe.delete()
+    return redirect('recipes:index')

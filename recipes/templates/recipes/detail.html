@@ -32,15 +32,15 @@
 {% endfor %}
 
 <!-- buttons to edit and delete this recipe -->
-<form action="" method='POST'>
+<div>
 {% csrf_token %}
     <a href="{% url 'recipes:detail' recipe.id %}"
        class="btn btn-normal btn-sm">
         Edit
     </a>
-    <a href="{% url 'recipes:detail' recipe.id %}"
+    <a href="{% url 'recipes:delete' recipe.id %}"
        class="btn btn-danger btn-sm">
         Delete
     </a>
-</form>
+</div>
 </html>
