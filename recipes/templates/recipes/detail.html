@@ -1,7 +1,45 @@
+<html>
+<head>
+    <title>
+        Recipe: {{ recipe.recipe_name }}
+    </title>
+</head>
 <h1>{{ recipe.recipe_name }}</h1>
-<ul>
-    {{ recipe.instructions }}
-{#{% for ingredient in recipe.recipeingredients_set %}#}
-{#    <li>{{ ingredient.ingredient }}</li>#}
-{#{% endfor %}#}
-</ul>
+<p>{{ recipe.description }}</p>
+
+<!-- create a table of all ingredients ordered by unit size -->
+<table class="table">
+    <thead>
+        <tr>
+            <td>Quantity</td>
+            <td>Unit</td>
+            <td>Ingredient</td>
+        </tr>
+    </thead>
+    <tbody>
+        {% for ingredient in recipe.recipeIngredients_set.all.order_by('unit) %}
+            <tr>
+                <td>{{ingredient.quantity}}</td>
+                <td>{{ingredient.unit}}</td>
+                <td>{{ingredient.recipe_name}}</td>
+            </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<!-- list all instructions -->
+{% for instruction in recipe.recipeInstructions_set.all.order_by('step') %}
+<li>{{ instruction.instruction_text }}</li>
+
+<!-- buttons to edit and delete this recipe -->
+<form action="" method='POST'>
+{% csrf_token %}
+    <a href="{% url 'edit-recipe' recipe.id %}"
+       class="btn btn-normal btn-sm">
+        Edit
+    </a>
+    <a href="{% url 'delete-recipe' recipe.id %}"
+       class="btn btn-danger btn-sm">
+        Delete
+    </a>
+</form>
+</html>
