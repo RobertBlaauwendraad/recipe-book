@@ -18,8 +18,8 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link" aria-current="page" href="{% url 'home' %}">Home</a>
-                    <a class="nav-link" href="{% url 'recipes:index' %}">Recipes</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'recipes:index' %}">Recipes</a>
                     {% if user.is_staff %}
                         <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                     {% endif %}
