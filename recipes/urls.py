@@ -10,4 +10,6 @@ urlpatterns = [
     # path('update_recipe/<int:recipe_id>', views.update),
     # e.g. /recipes/delete/5
     path('delete/<int:recipe_id>', views.delete, name='delete'),
+    # e.g. /recipes/edit/5
+    path('edit/<int:recipe_id>', views.edit, name='edit'),
 ]

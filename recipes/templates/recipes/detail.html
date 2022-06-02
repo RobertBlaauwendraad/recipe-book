@@ -34,7 +34,7 @@
 <!-- buttons to edit and delete this recipe -->
 <div>
 {% csrf_token %}
-    <a href="{% url 'recipes:detail' recipe.id %}"
+    <a href="{% url 'recipes:edit' recipe.id %}"
        class="btn btn-normal btn-sm">
         Edit
     </a>

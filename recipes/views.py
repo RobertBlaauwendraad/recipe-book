@@ -3,6 +3,29 @@ from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 
 from .models import Recipe
+from .forms import RecipeForm
+
+class RecipeEditView(UpdateView):
+    model = Recipe
+    form_class = RecipeEditMultiForm
+    success_url = reverse_lazy('recipe:index')
+
+    # def get_form_kwargs(self):
+    #     kwargs = super(RecipeEditView, self).get_form_kwargs()
+    #     kwargs.update(instance={
+    #         'recipe': self.object,
+    #         'instructions': self.object.profile,
+    #     })
+    #     return kwargs
+
+def edit(request, recipe_id):
+    recipe = get_object_or_404(Recipe, pk=recipe_id)
+    form = RecipeEditMultiForm(request.POST or None, instance=recipe)
+    context = {'recipe': recipe, 'form': form}
+    if form.is_valid():
+        form.save()
+        return redirect('recipes:index')
+    return render(request, 'recipes/edit.html', context)
 
 
 def index(request):
