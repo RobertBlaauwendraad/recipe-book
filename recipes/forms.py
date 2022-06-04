@@ -13,12 +13,13 @@ class RecipeForm(ModelForm):
             'recipe_name': '',
             'description': '',
             'people': '',
-            }
+        }
         widgets = {
-            'recipe_name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Recipe Name'}),
-            'description': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Description'}),
-            'people': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Servings'}),
-            }
+            'recipe_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Recipe Name'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
+            'people': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Servings'}),
+        }
+
 
 class IngredientsForm(ModelForm):
     class Meta:
@@ -28,19 +29,19 @@ class IngredientsForm(ModelForm):
             'ingredient_name': '',
             'quantity': '',
             'unit': '',
-            }
+        }
         widgets = {
-            'ingredient_name': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Ingredient Name'}),
-            'quantity': forms.NumberInput(attrs={'class':'form-control', 'placeholder':'Quantity'}),
-            'unit': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Unit'})
-            }
+            'ingredient_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingredient Name'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantity'}),
+            'unit': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Unit'})
+        }
+
 
 IngredientFormset = modelformset_factory(
     RecipeIngredients,
     form=IngredientsForm,
     extra=-3,
-    )
-
+)
 
 
 class InstructionForm(ModelForm):
@@ -49,15 +50,14 @@ class InstructionForm(ModelForm):
         fields = ('instruction',)
         labels = {
             'instruction': '',
-            }
+        }
         widgets = {
-            'instruction': forms.TextInput(attrs={'class':'form-control', 'placeholder':'Instruction'}),
-            }
+            'instruction': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Instruction'}),
+        }
 
 
 InstructionFormset = modelformset_factory(
     RecipeInstructions,
     form=InstructionForm,
     extra=-5,
-    )
-
+)
