@@ -1,0 +1,127 @@
+{% block content %}
+
+<style>
+    .hidden{
+        visibility: hidden !important;
+        display:none !important;}
+</style>
+
+
+
+<h1>Add Recipe</h1>
+<br/>
+
+{% if submitted %}
+        Your recipe was saved
+        
+    {% else %}
+    
+        <form  id="recipe" method=POST>
+            {% csrf_token %}
+            
+            <h4>General<h4>
+            {{ formA.as_p }}
+
+            <h4>Ingredients<h4>
+            {{ formB.management_form }}
+            <div id="ingredient-list" >
+                {% for form in formB %}
+                    <div class="ingedient-form">
+                        {{form }}
+                    </div>
+                {% endfor %}
+            </div>
+
+
+            <div id="empty-ingredient" class="hidden">{{formB.empty_form}}</div>
+            <button id="add-ingredient" type="button">Add Ingredient</button> 
+            
+            <h4>Instructions<h4>
+                {{ formC.management_form }}
+                <div id="instruction-list" >
+                    {% for form in formC %}
+                        <div class="instruction-form">
+                            {{form.as_p }}
+                        </div>
+                    {% endfor %}
+                </div>
+    
+    
+                <div id="empty-instruction" class="hidden">{{formC.empty_form}}</div>
+                <button id="add-instruction" type="button">Add Instructions</button> 
+
+
+            <input type="submit" value="Save" class="btn btn-secondary">
+            
+        </form>
+    {% endif %}
+
+<br/><br/>
+
+
+<script>
+    
+    const addIngredientBtn = document.getElementById('add-ingredient')
+    const totalNewIngredients = document.getElementById("id_form-TOTAL_FORMS")
+
+    addIngredientBtn.addEventListener('click', add_new_ingredient)
+
+    function add_new_ingredient(event) {
+        if (event) {
+            event.preventDefault()
+        }
+        const cuttentIngredientForms = document.getElementsByClassName("ingredient-form")
+        const currentIngredientCount = cuttentIngredientForms.length
+        const formIngredientTarget = document.getElementById('ingredient-list')
+
+        const copyemptyIngredientFormEl = document.getElementById("empty-ingredient").cloneNode(true)
+        copyemptyIngredientFormEl.setAttribute('class', 'ingredient-form')
+        copyemptyIngredientFormEl.setAttribute('id', `form-${currentIngredientCount}`)
+
+        const regex = new RegExp('__prefix__', 'g')
+        copyemptyIngredientFormEl.innerHTML = copyemptyIngredientFormEl.innerHTML.replace(regex, currentIngredientCount)
+        totalNewIngredients.setAttribute('value', currentIngredientCount + 1)
+        formIngredientTarget.append(copyemptyIngredientFormEl)
+
+        const hiddenfield = document.getElementById(`id_form-${currentIngredientCount}-id`)
+        hiddenfield.setAttribute('value', `${currentIngredientCount+2}`)
+
+    }
+</script>
+
+<script>
+    
+    const addInstructionBtn = document.getElementById('add-instruction')
+    const totalNewInstruction = document.getElementById("id_form-TOTAL_FORMS")
+
+    addInstructionBtn.addEventListener('click', add_new_instruction)
+
+    function add_new_instruction(event) {
+        if (event) {
+            event.preventDefault()
+        }
+        console.log("test")
+        const cuttentInstructionForms = document.getElementsByClassName("instruction-form")
+        const currentInstructionCount = cuttentInstructionForms.length
+        const formInstructionTarget = document.getElementById('instruction-list')
+
+        const copyemptyInstructionFormEl = document.getElementById("empty-instruction").cloneNode(true)
+        copyemptyInstructionFormEl.setAttribute('class', 'instruction-form')
+        copyemptyInstructionFormEl.setAttribute('id', `form-${currentInstructionCount}`)
+
+        const regex = new RegExp('__prefix__', 'g')
+        copyemptyInstructionFormEl.innerHTML = copyemptyInstructionFormEl.innerHTML.replace(regex, currentInstructionCount)
+        totalNewInstruction.setAttribute('value', currentInstructionCount + 1)
+        formInstructionTarget.append(copyemptyInstructionFormEl)
+
+        const hiddenfield = document.getElementById(`id_form-${currentInstructionCount}-id`)
+        console.log(`id_form-${currentInstructionCount}-id`)
+        hiddenfield.setAttribute('value', `${currentInstructionCount+2}`)
+        console.log("test")
+
+    }
+</script>
+
+
+{% endblock %}
+
