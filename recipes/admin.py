@@ -20,7 +20,7 @@ class RecipeInstruction(admin.TabularInline):
 class RecipeAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['recipe_name']}),
-        ('Information', {'fields': ['description', 'people', 'pub_date', ]}),
+        ('Information', {'fields': ['description', 'people', 'pub_date', 'author']}),
     ]
     inlines = [RecipeIngredient, RecipeInstruction]
 

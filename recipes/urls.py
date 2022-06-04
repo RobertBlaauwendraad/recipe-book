@@ -7,5 +7,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     # e.g. /recipes/5/
     path('<int:recipe_id>/', views.detail, name='detail'),
-    path('add_recipe/', views.add_recipe, name='add-recipe') #deze is nieuw
+    # path('update/<int:recipe_id>', views.update),
+    # e.g. /recipes/delete/5
+    path('delete/<int:recipe_id>', views.delete, name='delete'),
+    # e.g. /recipes/add
+    path('create/', views.create, name='create')
 ]

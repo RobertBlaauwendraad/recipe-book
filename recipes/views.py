@@ -1,11 +1,14 @@
-from django.shortcuts import get_object_or_404, render
+from django.shortcuts import get_object_or_404, render, redirect
 from django.http import HttpResponseRedirect
 from .models import Recipe
+from . forms import RecipeForm, IngredientFormset, InstructionFormset
 import datetime
 
-
 def index(request):
-    latest_recipes_list = Recipe.objects.order_by('-pub_date')[:10]
+    if request.user.is_authenticated:
+        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+    else:
+        latest_recipes_list = {}
     context = {
         'latest_recipes_list': latest_recipes_list
     }
@@ -14,14 +17,20 @@ def index(request):
 
 def detail(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    return render(request, 'recipes/detail.html', {'recipe': recipe})
+    ordered_instructions_list = recipe.instructions.order_by('step')
+    context = {
+        'recipe': recipe,
+        'ordered_instructions_list': ordered_instructions_list
+    }
+    return render(request, 'recipes/detail.html', context)
 
 
-## voeg dit toe
+def delete(request, recipe_id):
+    recipe = Recipe.objects.get(pk=recipe_id)
+    recipe.delete()
+    return redirect('recipes:index')
 
-from . forms import RecipeForm, IngredientFormset, InstructionFormset
-
-def add_recipe(request):
+def create(request):
 
     submitted = False
     if request.method == "POST":
@@ -53,4 +62,4 @@ def add_recipe(request):
         if 'submitted' in request.GET:
             submitted = True
 
-    return render(request, 'recipes/add_recipe.html',{'formA':formA, 'formB':formB, 'formC':formC, 'submitted':submitted})
+    return render(request, 'recipes/create.html',{'formA':formA, 'formB':formB, 'formC':formC, 'submitted':submitted})
