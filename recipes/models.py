@@ -29,7 +29,7 @@ class RecipeIngredients(models.Model):
 
 class RecipeInstructions(models.Model):
     recipe = models.ForeignKey(Recipe, related_name="instructions", on_delete=models.CASCADE)
-    step = models.IntegerField(default= = 1)
+    step = models.IntegerField(default=1)
     instruction = models.CharField(max_length=65535)
 
     def __str__(self):
