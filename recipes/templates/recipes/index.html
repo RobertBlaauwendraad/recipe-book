@@ -4,6 +4,7 @@
 
 {% block content %}
     <div class="container py-4">
+        <h1>Recipes</h1>
         {% if latest_recipes_list %}
             <ul class="list-group">
                 {% for recipe in latest_recipes_list %}
@@ -21,7 +22,7 @@
             <p>No recipes are available.</p>
         {% endif %}
     {% if user.is_authenticated %}
-        <a href="{% url 'recipes:index' %}" class="btn btn-primary my-4" role="button">Create new recipe</a>
+        <a href="{% url 'recipes:create' %}" class="btn btn-primary my-4" role="button">Create new recipe</a>
     {% endif %}
     </div>
 {% endblock %}
