@@ -29,7 +29,10 @@ def edit(request, recipe_id):
 
 
 def index(request):
-    latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+    if request.user.is_authenticated:
+        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+    else:
+        latest_recipes_list = {}
     context = {
         'latest_recipes_list': latest_recipes_list
     }
