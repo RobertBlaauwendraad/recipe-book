@@ -8,12 +8,29 @@ import datetime
 
 def edit(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
-    form = RecipeEditMultiForm(request.POST or None, instance=recipe)
-    context = {'recipe': recipe, 'form': form}
-    if form.is_valid():
-        form.save()
-        return redirect('recipes:index')
-    return render(request, 'recipes/edit.html', context)
+    formA = RecipeForm(request.POST or None, instance=recipe)
+    formB = IngredientFormset(request.POST or None)     #, instance=recipe.ingredients)
+    formC = InstructionFormset(request.POST or None)    #, instance=recipe.instructions)
+    if formA.is_valid() and formB.is_valid() and formC.is_valid():
+        a = formA.save(commit=False)
+        a.save()
+
+        for b in formB:
+            ingredient = b.save(commit=False)
+            ingredient.recipe = a
+            ingredient.save()
+
+        i = 1
+        for c in formC:
+            Instruction = c.save(commit=False)
+            Instruction.recipe = a
+            Instruction.step = i
+            i += 1
+            Instruction.save()
+        return HttpResponseRedirect('recipe/index')
+
+    return render(request, 'recipes/edit.html',
+                  {'recipe': recipe, 'formA': formA, 'formB': formB, 'formC': formC})
 
 
 def index(request):

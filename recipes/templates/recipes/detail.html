@@ -39,7 +39,7 @@
         <h2 class="mt-3">Options</h2>
         <div>
             {% csrf_token %}
-            <a href="{% url 'recipes:detail' recipe.id %}"
+            <a href="{% url 'recipes:edit' recipe.id %}"
                class="btn btn-secondary">
                 Edit
             </a>
