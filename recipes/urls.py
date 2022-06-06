@@ -5,7 +5,7 @@ app_name = 'recipes'
 urlpatterns = [
     # e.g. /recipes/
     path('', views.index, name='index'),
-    path('', views.index_all, name='index-all'),
+    path('index-all/', views.index_all, name='index-all'),
     # e.g. /recipes/5/
     path('<int:recipe_id>/', views.detail, name='detail'),
     # path('update/<int:recipe_id>', views.update),
@@ -17,5 +17,5 @@ urlpatterns = [
     path('create/', views.create, name='create'),
     # used when you enter a search query on the website
     path('search/', views.search, name='search'),
-    path('search/', views.search_all, name='search-all')
+    path('search-all/', views.search_all, name='search-all')
 ]

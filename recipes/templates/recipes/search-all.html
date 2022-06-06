@@ -1,5 +1,7 @@
 {% extends 'recipes/search.html' %}
 
+{% block title %}Search All Recipes{% endblock %}
+
 {% block searchbar %}
     <form class="d-flex" method=POST action="{% url 'recipes:search-all' %}">
         {% csrf_token %}

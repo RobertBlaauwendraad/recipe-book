@@ -4,6 +4,7 @@
 
 
 {% block searchbar %}
+    <p>check</p>
     <form class="d-flex" method=POST action="{% url 'recipes:search-all' %}">
         {% csrf_token %}
         <input class="form-control me-2" type="search" placeholder="Search Recipes" aria-label="Search" name="searched">
