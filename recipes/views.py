@@ -41,6 +41,7 @@ def create(request):
         if formA.is_valid() and formB.is_valid() and formC.is_valid():
             a = formA.save(commit=False)
             a.pub_date = str(datetime.datetime.today()).split('.')[0]
+            a.author = request.user.id
             a.save()
 
             for b in formB:
