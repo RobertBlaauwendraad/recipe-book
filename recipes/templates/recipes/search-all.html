@@ -1,7 +1,4 @@
-{% extends 'recipes/index.html' %}
-
-{% block title %}All Recipes{% endblock %}
-
+{% extends 'recipes/search.html' %}
 
 {% block searchbar %}
     <form class="d-flex" method=POST action="{% url 'recipes:search-all' %}">

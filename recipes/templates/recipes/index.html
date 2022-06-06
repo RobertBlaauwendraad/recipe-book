@@ -6,15 +6,14 @@
     <div class="container py-4">
         <h1>Recipes</h1>
 
-    <!-- new code -->
+        {% block searchbar %}
         <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
             {% csrf_token %}
-
             <input class="form-control me-2" type="search" placeholder="Search Recipes" aria-label="Search" name="searched">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
+        {% endblock %}
         <br>
-    <!-- end new code -->
 
         {% if latest_recipes_list %}
             <ul class="list-group">

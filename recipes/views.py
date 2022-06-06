@@ -7,13 +7,31 @@ import datetime
 
 
 def search(request):
-    if request.method == "POST":
+    if request.method == "POST" and request.user.is_authenticated:
         searched = request.POST['searched']
         results = Recipe.objects.filter(author_id=request.user, recipe_name__contains=searched)
         return render(request, 'recipes/search.html',
                 {'searched': searched, 'results': results})
     else:
         return render(request, 'recipes/search.html', {})
+
+
+def search_all(request):
+    return search_helper(request, True)
+
+
+def search_helper(request, search_all):
+    if request.method == "POST" and request.user.is_authenticated:
+        searched = request.POST['searched']
+        if search_all:
+            results = Recipe.objects.filter(recipe_name__contains=searched)
+        else:
+            results = Recipe.objects.filter(author_id=request.user, recipe_name__contains=searched)
+        return render(request, 'recipes/search.html',
+                {'searched': searched, 'results': results, 'search_all': search_all})
+    else:
+        return render(request, 'recipes/search.html', {})
+
 
 
 def edit(request, recipe_id):
@@ -44,14 +62,30 @@ def edit(request, recipe_id):
 
 
 def index(request):
+    return index_helper(request, False)
+
+
+def index_all(request):
+    return index_helper(request, True)
+
+
+def index_helper(request, list_all):
+    """Return recipes of all user when list_all is True and only the authors recipes when False.
+       If the user is not logged in return no recipes."""
     if request.user.is_authenticated:
-        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+        if list_all:
+            latest_recipes_list = Recipe.objects.all().order_by('-pub_date')[:30]
+        else:
+            latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
     else:
         latest_recipes_list = {}
     context = {
         'latest_recipes_list': latest_recipes_list
     }
+    if list_all:
+        return render(request, 'recipes/index-all.html', context)
     return render(request, 'recipes/index.html', context)
+
 
 
 def detail(request, recipe_id):

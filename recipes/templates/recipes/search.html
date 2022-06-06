@@ -2,8 +2,16 @@
 
 {% block content %}
     <div class="container py-4">
+        <h1>Search results:</h1>
+        {% block search %}
+        <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
+            {% csrf_token %}
+            <input class="form-control me-2" type="search" placeholder="Search Recipes" aria-label="Search" name="searched">
+            <button class="btn btn-outline-secondary" type="submit">Search</button>
+        </form>
+        {% endblock %}
+        <br>
         {% if searched %}
-            <h1>Search results:</h1>
             <ul class="list-group">
                 {% for recipe in results %}
                     <a href="{% url 'recipes:detail' recipe.id %}"
@@ -17,7 +25,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <h1>You forgot to provide a search term.</h1>
+            <p>You forgot to provide a search term.</p>
         {% endif %}
     </div>
 {% endblock %}
