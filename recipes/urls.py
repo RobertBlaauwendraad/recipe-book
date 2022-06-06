@@ -13,5 +13,6 @@ urlpatterns = [
     # e.g. /recipes/edit/5
     path('edit/<int:recipe_id>', views.edit, name='edit'),
     # e.g. /recipes/add
-    path('create/', views.create, name='create')
+    path('create/', views.create, name='create'),
+    path('search/', views.search, name='search')
 ]

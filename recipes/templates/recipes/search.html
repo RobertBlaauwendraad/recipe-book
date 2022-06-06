@@ -1,0 +1,15 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <div class="container py-4">
+        {% if searched %}
+            <h1>Search results:</h1>
+            {% for result in results %}
+                <a href="{% url 'recipes:detail' result.id %}">{{ result }}</a>
+                <br>
+            {% endfor %}
+        {% else %}
+            <h1>You forgot to provide a search term.</h1>
+        {% endif %}
+    </div>
+{% endblock %}

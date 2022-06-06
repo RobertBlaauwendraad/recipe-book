@@ -6,6 +6,16 @@ from .forms import RecipeForm, IngredientFormset, InstructionFormset
 import datetime
 
 
+def search(request):
+    if request.method == "POST":
+        searched = request.POST['searched']
+        results = Recipe.objects.filter(recipe_name__contains=searched)
+        return render(request, 'recipes/search.html',
+                {'searched': searched, 'results': results})
+    else:
+        return render(request, 'recipes/search.html', {})
+
+
 def edit(request, recipe_id):
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     formA = RecipeForm(request.POST or None, instance=recipe)
