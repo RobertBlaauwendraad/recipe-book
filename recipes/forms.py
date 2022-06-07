@@ -1,26 +1,63 @@
 from django import forms
 from django.forms import ModelForm
-from betterforms.multiform import MultiModelForm
+from django.forms import modelformset_factory
+
 from .models import Recipe, RecipeIngredients, RecipeInstructions
 
-class RecipeEditMultiForm(MultiModelForm):
-    form_classes = {
-        'recipe': RecipeForm,
-        'ingredients': RecipeIngredientsForm,
-        'instructions': RecipeInstructionsForm,
-    }
 
-class RecipeIngredientsForm(ModelForm):
-    class Meta:
-        model = RecipeIngredients
-        fields = '__all__'
-
-class RecipeInstructionsForm(ModelForm):
-    class Meta:
-        model = RecipeInstructions
-        fields = '__all__'
-
-class RecipeForm(ModelForm, RecipeIngredientsForm, RecipeInstructionsForm):
+class RecipeForm(ModelForm):
     class Meta:
         model = Recipe
-        fields = '__all__'
+        fields = ('recipe_name', 'description', 'people')
+        labels = {
+            'recipe_name': '',
+            'description': '',
+            'people': '',
+        }
+        widgets = {
+            'recipe_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Recipe Name'}),
+            'description': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Description'}),
+            'people': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Servings'}),
+        }
+
+
+class IngredientsForm(ModelForm):
+    class Meta:
+        model = RecipeIngredients
+        fields = ('ingredient_name', 'quantity', 'unit')
+        labels = {
+            'ingredient_name': '',
+            'quantity': '',
+            'unit': '',
+        }
+        widgets = {
+            'ingredient_name': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Ingredient Name'}),
+            'quantity': forms.NumberInput(attrs={'class': 'form-control', 'placeholder': 'Quantity'}),
+            'unit': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Unit'})
+        }
+
+
+IngredientFormset = modelformset_factory(
+    RecipeIngredients,
+    form=IngredientsForm,
+    extra=-3,
+)
+
+
+class InstructionForm(ModelForm):
+    class Meta:
+        model = RecipeInstructions
+        fields = ('instruction',)
+        labels = {
+            'instruction': '',
+        }
+        widgets = {
+            'instruction': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Instruction'}),
+        }
+
+
+InstructionFormset = modelformset_factory(
+    RecipeInstructions,
+    form=InstructionForm,
+    extra=-5,
+)

@@ -3,17 +3,18 @@ from django.contrib import admin
 from .models import Recipe, RecipeIngredients, RecipeInstructions
 
 
+
 class RecipeIngredient(admin.TabularInline):
     model = RecipeIngredients
-    extra = 1
+    extra = 0
     verbose_name_plural = "Ingredients"
 
 
 class RecipeInstruction(admin.TabularInline):
     model = RecipeInstructions
-    extra = 1
+    extra = 0
     verbose_name_plural = "Instructions"
-    # exclude = ['step']
+
 
 
 class RecipeAdmin(admin.ModelAdmin):
@@ -23,5 +24,5 @@ class RecipeAdmin(admin.ModelAdmin):
     ]
     inlines = [RecipeIngredient, RecipeInstruction]
 
-
+    list_display = ('recipe_name', 'description', 'people', 'pub_date')
 admin.site.register(Recipe, RecipeAdmin)
