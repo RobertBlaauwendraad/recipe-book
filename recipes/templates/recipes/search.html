@@ -1,7 +1,7 @@
 {% extends 'base.html' %}
 
 
-{% block title %}Search Recipes{% endblock %}
+{% block title %}Search My Recipes{% endblock %}
 
 {% block content %}
     <div class="container py-4">
@@ -9,7 +9,7 @@
         {% block search %}
         <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
             {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Search Recipes" aria-label="Search" name="searched">
+            <input class="form-control me-2" type="search" placeholder="Search My Recipes" aria-label="Search" name="searched">
             <button class="btn btn-outline-secondary" type="submit">Search</button>
         </form>
         {% endblock %}

@@ -1,17 +1,19 @@
 {% extends 'base.html' %}
 
-{% block title %}Recipes{% endblock %}
+{% block title %}My Recipes{% endblock %}
 
 {% block content %}
     <div class="container py-4">
-        <h1>Recipes</h1>
-
+        {% block headline %}
+            <h1>My Recipes</h1>
+        {% endblock %}
         {% block searchbar %}
-        <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
-            {% csrf_token %}
-            <input class="form-control me-2" type="search" placeholder="Search Recipes" aria-label="Search" name="searched">
-            <button class="btn btn-outline-secondary" type="submit">Search</button>
-        </form>
+            <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
+                {% csrf_token %}
+                <input class="form-control me-2" type="search" placeholder="Search My Recipes" aria-label="Search"
+                       name="searched">
+                <button class="btn btn-outline-secondary" type="submit">Search</button>
+            </form>
         {% endblock %}
         <br>
 
