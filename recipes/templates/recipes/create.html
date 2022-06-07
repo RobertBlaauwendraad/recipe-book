@@ -95,7 +95,6 @@
                 if (event) {
                     event.preventDefault()
                 }
-                console.log("test")
                 const cuttentInstructionForms = document.getElementsByClassName("instruction-form")
                 const currentInstructionCount = cuttentInstructionForms.length
                 const formInstructionTarget = document.getElementById('instruction-list')
@@ -110,10 +109,7 @@
                 formInstructionTarget.append(copyemptyInstructionFormEl)
 
                 const hiddenfield = document.getElementById(`id_form-${currentInstructionCount}-id`)
-                console.log(`id_form-${currentInstructionCount}-id`)
                 hiddenfield.setAttribute('value', `${currentInstructionCount + 2}`)
-                console.log("test")
-
             }
         </script>
     </div>

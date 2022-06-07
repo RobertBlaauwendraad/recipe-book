@@ -55,7 +55,7 @@ def edit(request, recipe_id):
             Instruction.step = i
             i += 1
             Instruction.save()
-        return HttpResponseRedirect('recipe/index')
+        return HttpResponseRedirect('/recipes/' + str(recipe_id))
 
     return render(request, 'recipes/edit.html',
                   {'recipe': recipe, 'formA': formA, 'formB': formB, 'formC': formC})
