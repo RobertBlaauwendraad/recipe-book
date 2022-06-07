@@ -34,30 +34,37 @@ def search_helper(request, search_all):
 
 
 def edit(request, recipe_id):
-    recipe = get_object_or_404(Recipe, pk=recipe_id)
-    formA = RecipeForm(request.POST or None, instance=recipe)
-    formB = IngredientFormset(request.POST or None)  # , instance=recipe.ingredients)
-    formC = InstructionFormset(request.POST or None)  # , instance=recipe.instructions)
-    if formA.is_valid() and formB.is_valid() and formC.is_valid():
-        a = formA.save(commit=False)
-        a.save()
+    current_recipe = get_object_or_404(Recipe, pk=recipe_id)
+    recipe_form = RecipeForm(request.POST or None, instance=current_recipe)
+    ingredient_formset = IngredientFormset(request.POST or None,
+                                           queryset=RecipeIngredients.objects.filter(recipe_id=current_recipe.id),
+                                           prefix='ingredient-form')
+    instruction_formset = InstructionFormset(request.POST or None,
+                                             queryset=RecipeInstructions.objects.filter(recipe_id=current_recipe.id),
+                                             prefix='instruction-form')
 
-        for b in formB:
-            ingredient = b.save(commit=False)
-            ingredient.recipe = a
+    if recipe_form.is_valid() and ingredient_formset.is_valid() and instruction_formset.is_valid():
+        recipe = recipe_form.save()
+        for ingredient_form in ingredient_formset:
+            ingredient = ingredient_form.save(commit=False)
+            ingredient.recipe = recipe
             ingredient.save()
+        step = 1
+        for instruction_form in instruction_formset:
+            instruction = instruction_form.save(commit=False)
+            instruction.recipe = recipe
+            instruction.step = step
+            instruction.save()
+            step += 1
+        return redirect('recipes:detail', current_recipe.id)
 
-        i = 1
-        for c in formC:
-            Instruction = c.save(commit=False)
-            Instruction.recipe = a
-            Instruction.step = i
-            i += 1
-            Instruction.save()
-        return HttpResponseRedirect('/recipes/' + str(recipe_id))
-
-    return render(request, 'recipes/edit.html',
-                  {'recipe': recipe, 'formA': formA, 'formB': formB, 'formC': formC})
+    context = {
+        'recipe': current_recipe,
+        'recipe_form': recipe_form,
+        'ingredient_formset': ingredient_formset,
+        'instruction_formset': instruction_formset
+    }
+    return render(request, 'recipes/edit.html', context)
 
 
 def index(request):

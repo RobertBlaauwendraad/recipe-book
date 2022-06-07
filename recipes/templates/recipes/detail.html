@@ -42,7 +42,7 @@
             <div>
                 {% csrf_token %}
                 <a href="{% url 'recipes:edit' recipe.id %}"
-                   class="btn btn-secondary">
+                   class="btn btn-primary">
                     Edit
                 </a>
                 <a href="{% url 'recipes:delete' recipe.id %}"
