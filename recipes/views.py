@@ -7,6 +7,7 @@ import datetime
 
 
 def search(request):
+    """Search only the user's recipes."""
     if request.method == "POST" and request.user.is_authenticated:
         searched = request.POST['searched']
         results = Recipe.objects.filter(author_id=request.user, recipe_name__contains=searched)
@@ -17,6 +18,7 @@ def search(request):
 
 
 def search_all(request):
+    """Search the entire recipe database."""
     return search_helper(request, True)
 
 
@@ -34,6 +36,7 @@ def search_helper(request, search_all):
 
 
 def edit(request, recipe_id):
+    """Edit the recipe with id: recipe_id."""
     current_recipe = get_object_or_404(Recipe, pk=recipe_id)
     recipe_form = RecipeForm(request.POST or None, instance=current_recipe)
     ingredient_formset = IngredientFormset(request.POST or None,
@@ -68,31 +71,36 @@ def edit(request, recipe_id):
 
 
 def index(request):
+    """Render only recipes which are authored by the requesting user."""
     return index_helper(request, False)
 
 
 def index_all(request):
+    """Render all recipes in the database."""
     return index_helper(request, True)
 
 
 def index_helper(request, list_all):
     """Return recipes of all user when list_all is True. If list_all is False but the user logged
        in then return only the users recipes. And in any other case return no recipes."""
+    max_size = 30  # determines the maximum number of recipes to be returned
     if list_all:
-        latest_recipes_list = Recipe.objects.all().order_by('-pub_date')[:30]
+        latest_recipes_list = Recipe.objects.all().order_by('-pub_date')[:max_size]
     elif request.user.is_authenticated:
-        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:max_size]
     else:
         latest_recipes_list = {}
     context = {
         'latest_recipes_list': latest_recipes_list
     }
     if list_all:
+        # render a special page in which you can also search the entire recipe database
         return render(request, 'recipes/index-all.html', context)
     return render(request, 'recipes/index.html', context)
 
 
 def detail(request, recipe_id):
+    """Render all the details of the recipe with id: recipe_id."""
     recipe = get_object_or_404(Recipe, pk=recipe_id)
     ordered_instructions_list = recipe.instructions.order_by('step')
     context = {
@@ -103,12 +111,14 @@ def detail(request, recipe_id):
 
 
 def delete(request, recipe_id):
+    """Delete the recipe with id: recipe_id from the database."""
     recipe = Recipe.objects.get(pk=recipe_id)
     recipe.delete()
     return redirect('recipes:index')
 
 
 def create(request):
+    """Render the page that allows a user to create a new recipe."""
     if request.method == 'GET':
         # we don't want to display the already saved model instances
         recipe_form = RecipeForm(request.GET or None)
