@@ -29,6 +29,7 @@ def search_helper(request, search_all):
             return render(request, 'recipes/search.html',
                           {'searched': searched, 'results': results, 'search_all': search_all})
     if search_all:
+        # render the page in which you can search the entire recipe database
         return render(request, 'recipes/search-all.html', {})
     return render(request, 'recipes/search.html', {})
 
@@ -92,7 +93,7 @@ def index_helper(request, list_all):
         'latest_recipes_list': latest_recipes_list
     }
     if list_all:
-        # render a special page in which you can also search the entire recipe database
+        # render the page in which you can search the entire recipe database
         return render(request, 'recipes/index-all.html', context)
     return render(request, 'recipes/index.html', context)
 
