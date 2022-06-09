@@ -8,13 +8,7 @@ import datetime
 
 def search(request):
     """Search only the user's recipes."""
-    if request.method == "POST" and request.user.is_authenticated:
-        searched = request.POST['searched']
-        results = Recipe.objects.filter(author_id=request.user, recipe_name__contains=searched)
-        return render(request, 'recipes/search.html',
-                      {'searched': searched, 'results': results})
-    else:
-        return render(request, 'recipes/search.html', {})
+    return search_helper(request, False)
 
 
 def search_all(request):
@@ -23,16 +17,20 @@ def search_all(request):
 
 
 def search_helper(request, search_all):
-    if request.method == "POST" and request.user.is_authenticated:
+    """Render a list of recipes based on a search query and whether or not the user is logged in."""
+    if request.method == "POST":
         searched = request.POST['searched']
         if search_all:
             results = Recipe.objects.filter(recipe_name__contains=searched)
-        else:
+            return render(request, 'recipes/search-all.html',
+                          {'searched': searched, 'results': results, 'search_all': search_all})
+        elif request.user.is_authenticated:
             results = Recipe.objects.filter(author_id=request.user, recipe_name__contains=searched)
-        return render(request, 'recipes/search.html',
-                      {'searched': searched, 'results': results, 'search_all': search_all})
-    else:
-        return render(request, 'recipes/search.html', {})
+            return render(request, 'recipes/search.html',
+                          {'searched': searched, 'results': results, 'search_all': search_all})
+    if search_all:
+        return render(request, 'recipes/search-all.html', {})
+    return render(request, 'recipes/search.html', {})
 
 
 def edit(request, recipe_id):

@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container py-4">
         <h1>Search results:</h1>
-        {% block search %}
+        {% block searchbar %}
             <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
                 {% csrf_token %}
                 <input class="form-control me-2" type="search" placeholder="Search My Recipes" aria-label="Search" name="searched">
