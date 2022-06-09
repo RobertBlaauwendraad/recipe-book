@@ -76,13 +76,12 @@ def index_all(request):
 
 
 def index_helper(request, list_all):
-    """Return recipes of all user when list_all is True and only the authors recipes when False.
-       If the user is not logged in return no recipes."""
-    if request.user.is_authenticated:
-        if list_all:
-            latest_recipes_list = Recipe.objects.all().order_by('-pub_date')[:30]
-        else:
-            latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
+    """Return recipes of all user when list_all is True. If list_all is False but the user logged
+       in then return only the users recipes. And in any other case return no recipes."""
+    if list_all:
+        latest_recipes_list = Recipe.objects.all().order_by('-pub_date')[:30]
+    elif request.user.is_authenticated:
+        latest_recipes_list = Recipe.objects.filter(author_id=request.user).order_by('-pub_date')[:10]
     else:
         latest_recipes_list = {}
     context = {
