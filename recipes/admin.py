@@ -3,7 +3,6 @@ from django.contrib import admin
 from .models import Recipe, RecipeIngredients, RecipeInstructions
 
 
-
 class RecipeIngredient(admin.TabularInline):
     model = RecipeIngredients
     extra = 0
@@ -16,7 +15,6 @@ class RecipeInstruction(admin.TabularInline):
     verbose_name_plural = "Instructions"
 
 
-
 class RecipeAdmin(admin.ModelAdmin):
     fieldsets = [
         (None, {'fields': ['recipe_name']}),
@@ -25,4 +23,6 @@ class RecipeAdmin(admin.ModelAdmin):
     inlines = [RecipeIngredient, RecipeInstruction]
 
     list_display = ('recipe_name', 'description', 'people', 'pub_date')
+
+
 admin.site.register(Recipe, RecipeAdmin)

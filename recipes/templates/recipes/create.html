@@ -51,6 +51,7 @@
     </div>
 
     <script type="text/javascript">
+        // Update element index
         function updateElementIndex(el, prefix, ndx) {
             let id_regex = new RegExp('(' + prefix + '-\\d+)');
             let replacement = prefix + '-' + ndx;
@@ -59,6 +60,7 @@
             if (el.name) el.name = el.name.replace(id_regex, replacement);
         }
 
+        // Clone more fields
         function cloneMore(selector, prefix) {
             const newElement = $(selector).clone(true);
             let total = $('#id_' + prefix + '-TOTAL_FORMS').val();
@@ -85,6 +87,7 @@
             return false;
         }
 
+        // Delete fields
         function deleteForm(prefix) {
             const total = parseInt($('#id_' + prefix + '-TOTAL_FORMS').val());
             if (total > 1) {
@@ -100,22 +103,28 @@
             return false;
         }
 
+        // Call clone more function when button is pressed
         $(document).on('click', '.add-ingredient-form-row', function (e) {
             e.preventDefault();
             cloneMore('.ingredient-form-row:last', 'ingredient-form');
             return false;
         });
+
+        // Call delete form function when button is pressed
         $(document).on('click', '.remove-ingredient-form-row', function (e) {
             e.preventDefault();
             deleteForm('ingredient-form');
             return false;
         });
 
+        // Call clone more function when button is pressed
         $(document).on('click', '.add-instruction-form-row', function (e) {
             e.preventDefault();
             cloneMore('.instruction-form-row:last', 'instruction-form');
             return false;
         });
+
+        // Call delete form function when button is pressed
         $(document).on('click', '.remove-instruction-form-row', function (e) {
             e.preventDefault();
             deleteForm('instruction-form');
