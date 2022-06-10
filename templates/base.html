@@ -7,6 +7,8 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0-beta1/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-0evHe/X+R7YkIZDRvuzKMRqM+OrBnVFBL6DOitfPri4tjfHxaWutUpFmBp4vmVor" crossorigin="anonymous">
 </head>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"
+        integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
 <body>
 <main>
     <nav class="navbar navbar-expand-lg bg-light">
@@ -18,8 +20,12 @@
             </button>
             <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
                 <div class="navbar-nav">
-                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}" aria-current="page" href="{% url 'home' %}">Home</a>
-                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}" href="{% url 'recipes:index' %}">Recipes</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'home' %}active{% endif %}"
+                       aria-current="page" href="{% url 'home' %}">Home</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index' %}active{% endif %}"
+                       href="{% url 'recipes:index' %}">My Recipes</a>
+                    <a class="nav-link {% if request.resolver_match.url_name == 'index-all' %}active{% endif %}"
+                       href="{% url 'recipes:index-all' %}">All Recipes</a>
                     {% if user.is_staff %}
                         <a class="nav-link" href="{% url 'admin:index' %}">Admin</a>
                     {% endif %}
@@ -27,6 +33,7 @@
                         <a class="nav-link" href="{% url 'logout' %}">Log Out</a>
                     {% else %}
                         <a class="nav-link" href="{% url 'login' %}">Log In</a>
+                        <a class="nav-link" href="{% url 'accounts:signup' %}">Sign Up</a>
                     {% endif %}
                 </div>
             </div>

@@ -17,8 +17,7 @@
                 <div class="h-100 p-5 text-white bg-dark rounded-3">
                     <h2>View your recipes!</h2>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut dui vestibulum, lobortis sem
-                        vehicula, euismod nisi.
+                        Take a look at your own, most delicious recipes saved on this web application!
                     </p>
                     <a class="btn btn-outline-light" href="{% url 'recipes:index' %}" role="button">Show recipes</a>
                 </div>
@@ -27,10 +26,10 @@
                 <div class="h-100 p-5 text-white bg-dark rounded-3">
                     <h2>View others' recipes!</h2>
                     <p>
-                        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque ut dui vestibulum, lobortis sem
-                        vehicula, euismod nisi.
+                        Let's get inspired by others' great recipes, and you might try to prepare them yourself!
                     </p>
-                    <router-link class="btn btn-outline-light disabled" to="">Not implemented yet</router-link>
+                    <a class="btn btn-outline-light" href="{% url 'recipes:index-all' %}" role="button">Show all recipes</a>
+<!--                    <router-link class="btn btn-outline-light disabled" to="">Not implemented yet</router-link> -->
                 </div>
             </div>
         </div>

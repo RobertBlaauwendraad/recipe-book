@@ -1,30 +1,26 @@
 {% extends 'base.html' %}
 
-{% block title %}My Recipes{% endblock %}
+
+{% block title %}Search My Recipes{% endblock %}
 
 {% block content %}
     <div class="container py-4">
-        {% block headline %}
-            <h1>My Recipes</h1>
-        {% endblock %}
+        <h1>Search results:</h1>
         {% block searchbar %}
             <form class="d-flex" method=POST action="{% url 'recipes:search' %}">
                 {% csrf_token %}
-                <input class="form-control me-2" type="search" placeholder="Search My Recipes" aria-label="Search"
-                       name="searched">
+                <input class="form-control me-2" type="search" placeholder="Search My Recipes" aria-label="Search" name="searched">
                 <button class="btn btn-outline-secondary" type="submit">Search</button>
             </form>
         {% endblock %}
         <br>
-
-        {% if latest_recipes_list %}
+        {% if searched %}
             <ul class="list-group">
-                {% for recipe in latest_recipes_list %}
+                {% for recipe in results %}
                     <a href="{% url 'recipes:detail' recipe.id %}"
                        class="list-group-item list-group-item-action d-flex justify-content-between align-items-start">
                         <div class="ms-2 me-auto">
                             <div class="fw-bold">{{ recipe.recipe_name }}</div>
-                            <div style="color: gray">{{ recipe.author }}</div>
                             {{ recipe.description }}
                         </div>
                         <span class="badge bg-primary rounded-pill">{{ recipe.people }} servings</span>
@@ -32,10 +28,7 @@
                 {% endfor %}
             </ul>
         {% else %}
-            <p>No recipes are available.</p>
-        {% endif %}
-        {% if user.is_authenticated %}
-            <a href="{% url 'recipes:create' %}" class="btn btn-primary my-4" role="button">Create new recipe</a>
+            <p>You forgot to provide a search term.</p>
         {% endif %}
     </div>
 {% endblock %}
